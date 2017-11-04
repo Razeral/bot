@@ -34,15 +34,17 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
-   
-
 
 .onDefault((session) => {
     console.log(intents);
-    session.send('Sorry, I did not usnderstand \'%s\'.', session.message.text);
+    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
 
-bot.dialog('/', intents); 
+//bot.dialog('/', intents); 
+bot.dialog('/', function (session, args) {
+    session.send("Hi");
+    console.log(session.message.text);
+}); 
 
 if (useEmulator) {
     var restify = require('restify');
