@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\HttpTriggerCSharp1",
     "\\messages"
   ],
+  "SelectedNode": "\\HttpTriggerCSharp1\\run.csx",
   "PreviewInSolutionExplorer": false
 }
