@@ -8,6 +8,7 @@ https://aka.ms/abs-node-luis
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
+var http = require('http');
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -44,6 +45,10 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 bot.dialog('/', function (session, args) {
     session.send("Hi");
     console.log(session.message.text);
+    var name = session.message.text;
+    var msg = http.get("https://srtest11.azurewebsites.net/api/HttpTriggerCSharp1?code=Zozuw6nJ07DBu5oHrOU3qwIxJvu82/NhGta8F3NLzNrpZqW7Z4CH2A==&name=" + name);
+    session.send(msg);
+    
 }); 
 
 if (useEmulator) {
