@@ -46,7 +46,7 @@ bot.dialog('/', function (session, args) {
     session.send("Hi");
     console.log(session.message.text);
     var name = session.message.text;
-    //session.userData.custom = true;
+    session.userData.custom = true;
     //if (!session.userData.custom) {
         //session.userData.result = testFn(session, name);
         testFn(session, name);
