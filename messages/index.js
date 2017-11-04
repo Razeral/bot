@@ -46,6 +46,7 @@ bot.dialog('/', function (session, args) {
     session.send("Hi");
     console.log(session.message.text);
     var name = session.message.text;
+    session.send(name);
     var msg = http.get("https://srtest11.azurewebsites.net/api/HttpTriggerCSharp1?code=Zozuw6nJ07DBu5oHrOU3qwIxJvu82/NhGta8F3NLzNrpZqW7Z4CH2A==&name=" + name);
     session.send(msg);
     
