@@ -8,7 +8,7 @@ https://aka.ms/abs-node-luis
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
-var http = require('http');
+var http = require('request');
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
