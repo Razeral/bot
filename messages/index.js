@@ -61,9 +61,9 @@ bot.dialog('/', function (session, args) {
 
 function testFn(session, q) {
     session.send("sending");
-    //var msg = http.get("https://srtest11.azurewebsites.net/api/HttpTriggerCSharp1?code=Zozuw6nJ07DBu5oHrOU3qwIxJvu82/NhGta8F3NLzNrpZqW7Z4CH2A==&name=" + q);
+    var msg = http.get("https://srtest11.azurewebsites.net/api/HttpTriggerCSharp1?code=Zozuw6nJ07DBu5oHrOU3qwIxJvu82/NhGta8F3NLzNrpZqW7Z4CH2A==&name=" + q);
     session.send("returned");
-    //session.send(msg);
+    session.send(msg);
     //return msg;
 }
 
