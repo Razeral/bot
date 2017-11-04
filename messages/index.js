@@ -39,7 +39,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 .onDefault((session) => {
     console.log(intents);
-    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
+    session.send('Sorry, I did not usnderstand \'%s\'.', session.message.text);
 });
 
 bot.dialog('/', intents); 
@@ -52,6 +52,6 @@ if (useEmulator) {
     });
     server.post('/api/messages', connector.listen());    
 } else {
-    module.exports = { default: connector.listen() }
+    module.exports = { default: connector.listen() };
 }
 
