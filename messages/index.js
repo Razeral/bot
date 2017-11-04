@@ -47,12 +47,16 @@ bot.dialog('/', function (session, args) {
     console.log(session.message.text);
     var name = session.message.text;
     session.userData.custom = true;
+    if (session.userData.custom)
+        session.send("true");
+    else
+        session.send("false");
     //if (!session.userData.custom) {
         //session.userData.result = testFn(session, name);
         testFn(session, name);
     //}
     session.send(name);
-    session.send(result);
+    //session.send(result);
 }); 
 
 function testFn(session, q) {
