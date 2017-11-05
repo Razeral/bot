@@ -62,9 +62,12 @@ bot.dialog('/', function (session, args) {
 function testFn(session, q) {
     session.send("sending");
     //var msg = http.get("https://srtest11.azurewebsites.net/api/HttpTriggerCSharp1?code=Zozuw6nJ07DBu5oHrOU3qwIxJvu82/NhGta8F3NLzNrpZqW7Z4CH2A==&name=" + q);
+    var error = "";
+    var response = "";
+    var body = "";
     request('https://srtest11.azurewebsites.net/api/HttpTriggerCSharp1?code=Zozuw6nJ07DBu5oHrOU3qwIxJvu82/NhGta8F3NLzNrpZqW7Z4CH2A==&name=' + q, function (error, response, body) {
         session.send(error.toString());
-        session.send(response && response.statusCode.toString());
+        session.send((response && response.statusCode).toString());
         session.send(body.toString());
         console.log('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
