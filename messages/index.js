@@ -63,7 +63,7 @@ bot.dialog('/', function (session, args) {
 bot.dialog('SendPhoto', function (session, args) {
     session.send("In SendPhoto");
 }).triggerAction({
-    matches: 'Test.Command'
+    matches: /^ Test.Command$/i
 });
 
 function testFn(session, q) {
