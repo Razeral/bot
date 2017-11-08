@@ -5,7 +5,7 @@
 
 var request = require('request').defaults({ encoding: null });
 
-var VISION_URL = 'https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Description';
+var VISION_URL = 'https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Description';
 
 /** 
  *  Gets the caption of the image from an image stream
