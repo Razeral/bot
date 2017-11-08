@@ -46,7 +46,7 @@ intents.onDefault((session) => {
 bot.dialog('/', function (session, args) {
     console.log(intents);
     if (session.attachments)
-        bot.beginDialog(session.message.address, '/Echo');
+        session.beginDialog('/Echo');
     session.send(LuisModelUrl);
     session.send("Hi");
     console.log(session.message.text);
