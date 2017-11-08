@@ -54,9 +54,10 @@ bot.dialog('/', function (session, args) {
     console.log(intents);
     console.log(session.message.text);
 
-    if (session.message.attachments) {
-        session.send("Has attachment");
-        session.beginDialog('/Echo');
+    if (session.message.attachments && session.message.attachments.length > 0) {
+        session.send("Hmm...");
+        session.beginDialog('/GetCaption');
+        while (session.userData.processingImage); //Wait until image returns
     }
     else
     {
@@ -86,27 +87,8 @@ bot.dialog('/SendPhoto', function (session, args) {
     matches: 'Test.Command'
     });
 
-bot.dialog('/Echo', function (session) {
-   /*var msg = session.message;
-    if (msg.attachments && msg.attachments.length > 0) {
-        // Echo back attachment
-        var attachment = msg.attachments[0];
-        session.send({
-            text: "You sent:",
-            attachments: [
-                {
-                    contentType: attachment.contentType,
-                    contentUrl: attachment.contentUrl,
-                    name: attachment.name
-                }
-            ]
-        });
-    } else {
-        // Echo back users text
-        session.send("You said: %s", session.message.text);
-    }
-    session.endDialog();
-    */
+bot.dialog('/GetCaption', function (session) {
+    session.userData.processingImage = true; 
     if (hasImageAttachment(session)) {
         var stream = getImageStreamFromMessage(session.message);
         captionService
@@ -124,8 +106,7 @@ bot.dialog('/Echo', function (session) {
             session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
         }
     }
-}).triggerAction({
-    matches: 'Test.Echo'
+    session.endDialog();
 });
 
 function testFn(session, q) {
@@ -170,7 +151,6 @@ function getImageStreamFromMessage(message) {
             return needle.get(attachment.contentUrl, { headers: headers });
         });
     }
-
     headers['Content-Type'] = attachment.contentType;
     return needle.get(attachment.contentUrl, { headers: headers });
 }
@@ -199,11 +179,13 @@ function parseAnchorTag(input) {
 //=========================================================
 function handleSuccessResponse(session, caption) {
     if (caption) {
-        session.send('I think it\'s ' + caption);
+        //session.send('I think it\'s ' + caption);
+        session.send('Looks like it\'s ' + caption);
     }
     else {
         session.send('Couldn\'t find a caption for this one');
     }
+    session.userData.processingImage = false;
 
 }
 
