@@ -31,13 +31,13 @@ const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v2.0/apps/' + luisApp
 
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
-var intents = new builder.IntentDialog({ recognizers: [recognizer] })
+var intents = new builder.IntentDialog({ recognizers: [recognizer] });
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
 intents.matches('Test.Command', '/SendPhoto');
 
-.onDefault((session) => {
+intents.onDefault((session) => {
     console.log(intents);
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
