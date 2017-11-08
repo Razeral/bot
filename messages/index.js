@@ -44,6 +44,7 @@ intents.onDefault((session) => {
 
 //bot.dialog('/', intents); 
 bot.dialog('/', function (session, args) {
+    console.log(intents);
     session.send(LuisModelUrl);
     session.send("Hi");
     console.log(session.message.text);
