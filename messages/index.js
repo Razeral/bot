@@ -35,6 +35,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
+intents.matches('Test.Command', '/SendPhoto');
 
 .onDefault((session) => {
     console.log(intents);
@@ -60,7 +61,7 @@ bot.dialog('/', function (session, args) {
     //session.send(result);
 }); 
 
-bot.dialog('SendPhoto', function (session, args) {
+bot.dialog('/SendPhoto', function (session, args) {
     session.send("In SendPhoto");
 }).triggerAction({
     matches: /^ Test.Command$/i
