@@ -43,6 +43,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 //bot.dialog('/', intents); 
 bot.dialog('/', function (session, args) {
+    session.send(LuisModelUrl);
     session.send("Hi");
     console.log(session.message.text);
     var name = session.message.text;
@@ -63,7 +64,7 @@ bot.dialog('SendPhoto', function (session, args) {
     session.send("In SendPhoto");
 }).triggerAction({
     matches: 'Test.Command'
-})
+});
 
 function testFn(session, q) {
     session.send("sending");
@@ -78,7 +79,7 @@ function testFn(session, q) {
         console.log('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
-    })
+    });
     session.send("returned");
     //session.send(msg);
     //return msg;
