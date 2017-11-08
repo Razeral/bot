@@ -45,11 +45,18 @@ intents.onDefault((session) => {
 //bot.dialog('/', intents); 
 bot.dialog('/', function (session, args) {
     console.log(intents);
-    if (session.attachments)
-        session.beginDialog('/Echo');
-    session.send(LuisModelUrl);
-    session.send("Hi");
     console.log(session.message.text);
+
+    if (session.attachments) {
+        session.send("Has attachment");
+        session.beginDialog('/Echo');
+    }
+    else
+    {
+        session.send("No attachment");
+    }
+    //session.send(LuisModelUrl);
+    session.send("Hi");
     var name = session.message.text;
     session.userData.custom = true;
     if (session.userData.custom)
