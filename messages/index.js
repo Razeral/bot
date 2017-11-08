@@ -62,10 +62,12 @@ bot.dialog('/', function (session, args) {
     //}
     session.send(name);
     //session.send(result);
+    session.endDialog();
 }); 
 
 bot.dialog('/SendPhoto', function (session, args) {
     session.send("In SendPhoto");
+    session.endDialog();
 }).triggerAction({
     matches: 'Test.Command'
     });
@@ -89,6 +91,7 @@ bot.dialog('/Echo', function (session) {
         // Echo back users text
         session.send("You said: %s", session.message.text);
     }
+    session.endDialog();
 }).triggerAction({
     matches: 'Test.Echo'
 });
