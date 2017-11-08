@@ -47,7 +47,7 @@ bot.dialog('/', function (session, args) {
     console.log(intents);
     console.log(session.message.text);
 
-    if (session.attachments) {
+    if (session.message.attachments) {
         session.send("Has attachment");
         session.beginDialog('/Echo');
     }
