@@ -31,7 +31,8 @@ exports.getCaptionFromStream = function (stream) {
                 } else if (response.statusCode !== 200) {
                     reject(body);
                 } else {
-                    resolve(extractCaption(JSON.parse(body)));
+                    //resolve(extractCaption(JSON.parse(body)));
+                    resolve(extractCaption(body));
                 }
             }));
         }
