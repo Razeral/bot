@@ -9,6 +9,13 @@ var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var request = require('request');
+//
+
+var needle = require('needle'),
+    restify = require('restify'),
+    url = require('url'),
+    validUrl = require('valid-url'),
+    captionService = require('./caption-service');
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -80,7 +87,7 @@ bot.dialog('/SendPhoto', function (session, args) {
     });
 
 bot.dialog('/Echo', function (session) {
-    var msg = session.message;
+   /*var msg = session.message;
     if (msg.attachments && msg.attachments.length > 0) {
         // Echo back attachment
         var attachment = msg.attachments[0];
@@ -99,6 +106,23 @@ bot.dialog('/Echo', function (session) {
         session.send("You said: %s", session.message.text);
     }
     session.endDialog();
+    */
+    if (hasImageAttachment(session)) {
+        var stream = getImageStreamFromMessage(session.message);
+        captionService
+            .getCaptionFromStream(stream)
+            .then(function (caption) { handleSuccessResponse(session, caption); })
+            .catch(function (error) { handleErrorResponse(session, error); });
+    } else {
+        var imageUrl = parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null);
+        if (imageUrl) {
+            captionService
+                .getCaptionFromUrl(imageUrl)
+                .then(function (caption) { handleSuccessResponse(session, caption); })
+                .catch(function (error) { handleErrorResponse(session, error); });
+        } else {
+            session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
+        }
 }).triggerAction({
     matches: 'Test.Echo'
 });
@@ -120,6 +144,76 @@ function testFn(session, q) {
     session.send("returned");
     //session.send(msg);
     //return msg;
+}
+
+//=========================================================
+// Utilities
+//=========================================================
+function hasImageAttachment(session) {
+    return session.message.attachments.length > 0 &&
+        session.message.attachments[0].contentType.indexOf('image') !== -1;
+}
+
+function getImageStreamFromMessage(message) {
+    var headers = {};
+    var attachment = message.attachments[0];
+    if (checkRequiresToken(message)) {
+        // The Skype attachment URLs are secured by JwtToken,
+        // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
+        // https://github.com/Microsoft/BotBuilder/issues/662
+        connector.getAccessToken(function (error, token) {
+            var tok = token;
+            headers['Authorization'] = 'Bearer ' + token;
+            headers['Content-Type'] = 'application/octet-stream';
+
+            return needle.get(attachment.contentUrl, { headers: headers });
+        });
+    }
+
+    headers['Content-Type'] = attachment.contentType;
+    return needle.get(attachment.contentUrl, { headers: headers });
+}
+
+function checkRequiresToken(message) {
+    return message.source === 'skype' || message.source === 'msteams';
+}
+
+/**
+ * Gets the href value in an anchor element.
+ * Skype transforms raw urls to html. Here we extract the href value from the url
+ * @param {string} input Anchor Tag
+ * @return {string} Url matched or null
+ */
+function parseAnchorTag(input) {
+    var match = input.match('^<a href=\"([^\"]*)\">[^<]*</a>$');
+    if (match && match[1]) {
+        return match[1];
+    }
+
+    return null;
+}
+
+//=========================================================
+// Response Handling
+//=========================================================
+function handleSuccessResponse(session, caption) {
+    if (caption) {
+        session.send('I think it\'s ' + caption);
+    }
+    else {
+        session.send('Couldn\'t find a caption for this one');
+    }
+
+}
+
+function handleErrorResponse(session, error) {
+    var clientErrorMessage = 'Oops! Something went wrong. Try again later.';
+    if (error.message && error.message.indexOf('Access denied') > -1) {
+        clientErrorMessage += "\n" + error.message;
+    }
+
+    console.error(error);
+    session.send(clientErrorMessage);
 }
 
 if (useEmulator) {
