@@ -45,6 +45,8 @@ intents.onDefault((session) => {
 //bot.dialog('/', intents); 
 bot.dialog('/', function (session, args) {
     console.log(intents);
+    if (session.attachments)
+        bot.beginDialog(session.message.address, '/Echo');
     session.send(LuisModelUrl);
     session.send("Hi");
     console.log(session.message.text);
@@ -66,6 +68,29 @@ bot.dialog('/SendPhoto', function (session, args) {
     session.send("In SendPhoto");
 }).triggerAction({
     matches: 'Test.Command'
+    });
+
+bot.dialog('/Echo', function (session) {
+    var msg = session.message;
+    if (msg.attachments && msg.attachments.length > 0) {
+        // Echo back attachment
+        var attachment = msg.attachments[0];
+        session.send({
+            text: "You sent:",
+            attachments: [
+                {
+                    contentType: attachment.contentType,
+                    contentUrl: attachment.contentUrl,
+                    name: attachment.name
+                }
+            ]
+        });
+    } else {
+        // Echo back users text
+        session.send("You said: %s", session.message.text);
+    }
+}).triggerAction({
+    matches: 'Test.Echo'
 });
 
 function testFn(session, q) {
