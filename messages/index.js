@@ -57,7 +57,7 @@ bot.dialog('/', function (session, args) {
     if (session.message.attachments && session.message.attachments.length > 0) {
         session.send("Hmm...");
         session.beginDialog('/GetCaption');
-        while (session.userData.processingImage); //Wait until image returns
+        //while (session.userData.processingImage); //Wait until image returns
     }
     else
     {
