@@ -11,11 +11,22 @@ var path = require('path');
 var request = require('request');
 //
 
+// Cognitive Services - Computer Vision 
 var needle = require('needle'),
     restify = require('restify'),
     url = require('url'),
     validUrl = require('valid-url'),
     captionService = require('./caption-service');
+
+// Cosmos DB
+var documentDbOptions = {
+    host: process.env['CosmosDB_Host'],
+    masterKey: process.env['CosmosDB_MASTER_KEY'],
+    database: process.env['CosmosDB_DATABASE'],
+    collection: process.env['CosmosDB_COLLECTION']
+};
+var docDbClient = new botbuilder_azure.DocumentDbClient(documentDbOptions);
+var cosmosStorage = new botbuilder_azure.AzureBotStorage({ gzipData: false }, docDbClient);
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -26,7 +37,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector).set('storage', cosmosStorage);
 bot.localePath(path.join(__dirname, './locale'));
 
 // Make sure you add code to validate these fields
@@ -64,7 +75,7 @@ bot.dialog('/', function (session, args) {
         session.send("No attachment");
     }
     //session.send(LuisModelUrl);
-    session.send("Hi");
+    //session.send("Hi");
     var name = session.message.text;
     session.userData.custom = true;
     if (session.userData.custom)
@@ -73,9 +84,9 @@ bot.dialog('/', function (session, args) {
         session.send("false");
     //if (!session.userData.custom) {
         //session.userData.result = testFn(session, name);
-        testFn(session, name);
+        //testFn(session, name);
     //}
-    session.send(name);
+    //session.send(name);
     //session.send(result);
     session.endDialog();
 }); 
