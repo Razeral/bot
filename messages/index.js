@@ -37,7 +37,8 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
-var bot = new builder.UniversalBot(connector).set('storage', cosmosStorage);
+var bot = new builder.UniversalBot(connector);
+bot.set('storage', cosmosStorage);
 bot.localePath(path.join(__dirname, './locale'));
 
 // Make sure you add code to validate these fields
@@ -101,6 +102,7 @@ bot.dialog('/SendPhoto', function (session, args) {
 bot.dialog('/GetCaption', function (session) {
     session.userData.processingImage = true; 
     if (hasImageAttachment(session)) {
+        //session.userData.
         var stream = getImageStreamFromMessage(session.message);
         captionService
             .getCaptionFromStream(stream)
