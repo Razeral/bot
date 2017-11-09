@@ -80,10 +80,10 @@ bot.dialog('/', function (session, args) {
     //session.send("Hi");
     var name = session.message.text;
     session.userData.custom = true;
-    if (session.userData.custom)
+    /*if (session.userData.custom)
         session.send("true");
     else
-        session.send("false");
+        session.send("false");*/
     //if (!session.userData.custom) {
         //session.userData.result = testFn(session, name);
         //testFn(session, name);
