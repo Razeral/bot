@@ -136,14 +136,14 @@ bot.dialog('/GetDetails', [
         builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
-        session.userData.location = results.response;
+        session.userData.location = locations[results.response.entity];
         session.send(results.response);
         builder.Prompts.text(session, "Please tell me more?");
     },
     function (session, results, next) {
-        session.userData.desc = locations[results.response.entity];
+        session.userData.desc = results.response;
         //session.send(results.response);
-        session.send("Summary:");
+        session.send("So what I've gathered so far...");
         var attachment = session.userData.picture;
         session.send({
             text: "",
@@ -155,8 +155,8 @@ bot.dialog('/GetDetails', [
                 }
             ]
         });
-        session.send(session.userData.location);
-        session.send(session.userData.desc);
+        session.send("Spotted at: " + session.userData.location);
+        session.send("Issue: " + session.userData.desc);
 
         builder.Prompts.choice(session, "Submit?", "Yes | No ", { listStyle: builder.ListStyle.button });
     },
