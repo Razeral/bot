@@ -103,7 +103,7 @@ bot.dialog('/SendPhoto', function (session, args) {
 bot.dialog('/GetCaption', function (session) {
     session.userData.processingImage = true; 
     if (hasImageAttachment(session)) {
-        //session.userData.
+        session.userData.picture = session.message.attachments[0];
         var stream = getImageStreamFromMessage(session.message);
         captionService
             .getCaptionFromStream(stream)
@@ -133,7 +133,16 @@ var locations = [
 
 bot.dialog('/GetDetails', [
     function (session) {
-        builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.list });
+        builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button })
+    },
+    function (session, results, next) {
+        session.userData.location = results.response;
+        session.send("Summary:");
+        session.send(session.userData.picture);
+        session.send(session.userData.location);
+        session.userData = {};
+        session.endDialog();
+    }
 }]);
 
 function testFn(session, q) {
