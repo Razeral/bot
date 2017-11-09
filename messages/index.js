@@ -20,7 +20,7 @@ var needle = require('needle'),
 
 // Cosmos DB
 var documentDbOptions = {
-    host: process.env['CosmosDB_Host'],
+    host: process.env['CosmosDB_HOST'],
     masterKey: process.env['CosmosDB_MASTER_KEY'],
     database: process.env['CosmosDB_DATABASE'],
     collection: process.env['CosmosDB_COLLECTION']
