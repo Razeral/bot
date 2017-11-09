@@ -133,12 +133,12 @@ var locations = [
 
 bot.dialog('/GetDetails', [
     function (session) {
-        builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button });
+        builder.Prompts.choice(session, "Where is this place closest to?", locations, { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
-        session.userData.location = locations[results.response.entity];
+        session.userData.location = locations[results.response];
         session.send(results.response);
-        builder.Prompts.text(session, "Please tell me more?");
+        builder.Prompts.text(session, "Please tell me more about the problem? e.g. illegal parking");
     },
     function (session, results, next) {
         session.userData.desc = results.response;
@@ -161,7 +161,7 @@ bot.dialog('/GetDetails', [
         builder.Prompts.choice(session, "Submit?", "Yes | No ", { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
-        session.send("Thank you!");
+        session.send("Thank you " + session.message.user.name);
         session.userData = {};
         session.endDialog();
     }
