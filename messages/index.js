@@ -38,7 +38,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 });
 
 var bot = new builder.UniversalBot(connector);
-bot.set('storage', cosmosStorage);
+//bot.set('storage', cosmosStorage); // Why doesnt this work???
 bot.localePath(path.join(__dirname, './locale'));
 
 // Make sure you add code to validate these fields
@@ -73,7 +73,8 @@ bot.dialog('/', function (session, args) {
     }
     else
     {
-        session.send("No attachment");
+        //session.send("No attachment");
+        session.send("Please send an image");
     }
     //session.send(LuisModelUrl);
     //session.send("Hi");
