@@ -135,8 +135,14 @@ bot.dialog('/GetDetails', [
     function (session) {
         builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button });
     },
-    function (session, results, next) {
+    function (session) {
         session.userData.location = results.response;
+        session.send(results.response);
+        builder.Prompts.text(session, "Any other info?");
+    },
+    function (session, results, next) {
+        session.userData.desc = results.response;
+        session.send(results.response);
         session.send("Summary:");
         session.send(session.userData.picture);
         session.send(session.userData.location);
