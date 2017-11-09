@@ -141,10 +141,20 @@ bot.dialog('/GetDetails', [
         builder.Prompts.text(session, "Please tell me more?");
     },
     function (session, results, next) {
-        session.userData.desc = results.response;
-        session.send(results.response);
+        session.userData.desc = locations[results.response.entity];
+        //session.send(results.response);
         session.send("Summary:");
-        session.send(session.userData.picture);
+        var attachment = session.userData.picture;
+        session.send({
+            text: "",
+            attachments: [
+                {
+                    contentType: attachment.contentType,
+                    contentUrl: attachment.contentUrl,
+                    name: attachment.name
+                }
+            ]
+        });
         session.send(session.userData.location);
         session.send(session.userData.desc);
 
