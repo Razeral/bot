@@ -135,10 +135,10 @@ bot.dialog('/GetDetails', [
     function (session) {
         builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button });
     },
-    function (session) {
+    function (session, results, next) {
         session.userData.location = results.response;
         session.send(results.response);
-        builder.Prompts.text(session, "Any other info?");
+        builder.Prompts.text(session, "Please tell me more?");
     },
     function (session, results, next) {
         session.userData.desc = results.response;
@@ -146,6 +146,12 @@ bot.dialog('/GetDetails', [
         session.send("Summary:");
         session.send(session.userData.picture);
         session.send(session.userData.location);
+        session.send(session.userData.desc);
+
+        builder.Prompts.choice(session, "Submit?", "Yes | No ", { listStyle: builder.ListStyle.button });
+    },
+    function (session, results, next) {
+        session.send("Thank you!");
         session.userData = {};
         session.endDialog();
     }
