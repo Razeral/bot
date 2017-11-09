@@ -133,7 +133,7 @@ var locations = [
 
 bot.dialog('/GetDetails', [
     function (session) {
-        builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button })
+        builder.Prompts.choice(session, "Where is this place?", locations, { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
         session.userData.location = results.response;
@@ -143,7 +143,7 @@ bot.dialog('/GetDetails', [
         session.userData = {};
         session.endDialog();
     }
-}]);
+]);
 
 function testFn(session, q) {
     session.send("sending");
