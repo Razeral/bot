@@ -9,7 +9,7 @@ var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var request = require('request');
-//
+// why
 
 // Cognitive Services - Computer Vision 
 var needle = require('needle'),
