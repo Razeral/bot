@@ -1,4 +1,8 @@
 {
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "dependencies": {
     "async": "^2.6.0",
     "documentdb": "^1.14.1"
