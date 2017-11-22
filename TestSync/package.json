@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "async": "^2.6.0",
+    "documentdb": "^1.14.1"
+  }
+}
