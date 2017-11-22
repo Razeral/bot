@@ -15,6 +15,28 @@ var documentClient = require("documentdb").DocumentClient;
 //var config = require("./config");
 var url = require('url');
 var client = new documentClient(process.env['CosmosDB_HOST'],{ "masterkey": process.env['CosmosDB_MASTER_KEY']});
+var Andersen = { "Andersen": {
+    "id": "Anderson.1",
+    "lastName": "Andersen",
+    "parents": [{
+        "firstName": "Thomas"
+    }, {
+            "firstName": "Mary Kay"
+        }],
+    "children": [{
+        "firstName": "Henriette Thaulow",
+        "gender": "female",
+        "grade": 5,
+        "pets": [{
+            "givenName": "Fluffy"
+        }]
+    }],
+    "address": {
+        "state": "WA",
+        "county": "King",
+        "city": "Seattle"
+    }
+}}
 
 module.exports = function(context, req) {
 
@@ -28,8 +50,13 @@ module.exports = function(context, req) {
     {
         context.res = {
         // status: 200, /* Defaults to 200 */
-        body: "Hello " + (req.query.name || req.body.name) + " " + process.env['CosmosDB_HOST']
+        body: "Hello " + (req.query.name || req.body.name) + " " + process.env['CosmosDB_HOST'].toString
         };
+
+        client.createDocument(collectionUrl, Andersen, (err, created) => {
+            if (err) reject(err)
+            else resolve(created);
+        });
     }
     else
     {
