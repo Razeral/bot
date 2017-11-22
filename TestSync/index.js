@@ -50,7 +50,7 @@ module.exports = function(context, req) {
     {
         context.res = {
         // status: 200, /* Defaults to 200 */
-        body: "Hello " + (req.query.name || req.body.name) + " " + process.env['CosmosDB_HOST'].toString
+        body: "Hello " + (req.query.name || req.body.name) + " " + process.env['CosmosDB_HOST']
         };
 
         client.createDocument(collectionUrl, Andersen, (err, created) => {
