@@ -14,16 +14,21 @@ var cosmosStorage = new botbuilder_azure.AzureBotStorage({ gzipData: false }, do
 var documentClient = require("documentdb").DocumentClient;
 //var config = require("./config");
 var url = require('url');
-var client = new documentClient(process.env['CosmosDB_HOST'],process.env['CosmosDB_MASTER_KEY']);
+var client = new documentClient(process.env['CosmosDB_HOST'],{ "masterkey": process.env['CosmosDB_MASTER_KEY']});
 
 module.exports = function(context, req) {
+
+    var HttpStatusCodes = { NOTFOUND: 404 };
+    var databaseUrl = 'dbs/' + process.env['CosmosDB_DATABASE'];
+    var collectionUrl = '${databaseUrl}/colls/' + process.env['CosmosDB_COLLECTION'];
+    
     context.log('JavaScript HTTP trigger function processed a request.');
 
     if (req.query.name || (req.body && req.body.name))
     {
         context.res = {
         // status: 200, /* Defaults to 200 */
-        body: "Hello " + (req.query.name || req.body.name) + " " + client
+        body: "Hello " + (req.query.name || req.body.name) + " " + process.env['CosmosDB_HOST']
         };
     }
     else
