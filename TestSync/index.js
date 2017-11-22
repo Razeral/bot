@@ -54,8 +54,8 @@ module.exports = function(context, req) {
         };
 
         client.createDocument(collectionUrl, Andersen, (err, created) => {
-            if (err) reject(err)
-            else resolve(created);
+            //if (err) reject(err)
+            //else resolve(created);
         });
     }
     else
