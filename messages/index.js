@@ -195,9 +195,9 @@ bot.dialog('/GetDetails', [
           
           transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-              console.log(error);
+              session.send(error);
             } else {
-              console.log('Email sent: ' + info.response);
+              session.send('Email sent: ' + info.response);
             }
           });
         session.send("Thank you " + session.message.user.name);
