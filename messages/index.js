@@ -6,8 +6,7 @@ https://aka.ms/abs-node-luis
 -----------------------------------------------------------------------------*/
 "use strict";
 var builder = require("botbuilder");
-var bo
-builder_azure = require("botbuilder-azure");
+var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var request = require('request');
 // why
