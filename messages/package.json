@@ -8,6 +8,7 @@
     "botbuilder-azure": "^3.0.2",
     "needle": "^2.1.0",
     "nodemailer": "^4.4.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {

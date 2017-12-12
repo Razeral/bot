@@ -12,15 +12,27 @@ var request = require('request');
 // why
 
 var nodemailer = require('nodemailer');
+var sendgridTransport = require('nodemailer-sendgrid-transport');
 
-var transporter = nodemailer.createTransport({
+/*var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'shangru.ivsd@gmail.com',
     pass: 'JTCivsd1'
   }
-});
+});*/
 
+// Configure Nodemailer SendGrid Transporter
+const transporter = nodemailer.createTransport(
+    sendgridTransport({
+      auth: {
+        //api_user: process.env.SENDGRID_API_USER,    // SG username
+        //api_key: process.env.SENDGRID_API_PASSWORD, // SG password
+        api_user: 'Shangru',    // SG username
+        api_key: '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', // SG password
+      },
+    })
+  );
 
 
 // Cognitive Services - Computer Vision 
