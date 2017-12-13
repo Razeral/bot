@@ -11,17 +11,6 @@ var path = require('path');
 var request = require('request');
 // why
 
-var nodemailer = require('nodemailer');
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'shangru.ivsd@gmail.com',
-    pass: 'JTCivsd1'
-  }
-});
-
-
 // Cognitive Services - Computer Vision 
 var needle = require('needle'),
     restify = require('restify'),
@@ -173,20 +162,6 @@ bot.dialog('/GetDetails', [
         builder.Prompts.choice(session, "Submit?", "Yes | No ", { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
-        var mailOptions = {
-            from: 'youremail@gmail.com',
-            to: 'ng_shangru@jtc.gov.sg',
-            subject: 'Sending Email using Node.js',
-            text: 'That was easy!'
-          };
-          
-          transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              session.send(error);
-            } else {
-              session.send('Email sent: ' + info.response);
-            }
-          });
         session.send("Thank you " + session.message.user.name);
         session.userData = {};
         session.endDialog();
