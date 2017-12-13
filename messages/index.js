@@ -38,7 +38,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 });
 
 var bot = new builder.UniversalBot(connector);
-//bot.set('storage', cosmosStorage); // Why doesnt this work???
+bot.set('storage', cosmosStorage); // Why doesnt this work???
 bot.localePath(path.join(__dirname, './locale'));
 
 // Make sure you add code to validate these fields
@@ -160,6 +160,7 @@ bot.dialog('/GetDetails', [
         builder.Prompts.choice(session, "Submit?", "Yes | No ", { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
+        session.send(results)
         session.send("Thank you " + session.message.user.name);
         session.userData = {};
         session.endDialog();
