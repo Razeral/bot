@@ -73,8 +73,6 @@ bot.dialog('/', function (session, args) {
     }
     else
     {
-        //session.send("No attachment");
-        //session.send("Please send an image");
         session.send("Hello. If you would like to report an issue, please send me an image. This is currently my only feature :(");
     }
     //session.send(LuisModelUrl);
@@ -137,7 +135,7 @@ bot.dialog('/GetDetails', [
         builder.Prompts.choice(session, "Where is this place closest to?", locations, { listStyle: builder.ListStyle.button });
     },
     function (session, results, next) {
-        session.userData.locationx = locations[results.response];
+        session.userData.locationx = locations[results.response.index];
         session.send(results.response);
         builder.Prompts.text(session, "Please tell me more about the problem? e.g. illegal parking");
     },
